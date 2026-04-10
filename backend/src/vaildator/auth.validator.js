@@ -1,11 +1,12 @@
 import { body, validationResult } from "express-validator";
 
 function validationRequest(req, res, next) {
-  const error = validationRequest(req);
+  const errors = validationResult(req);
 
-  if (!error.isEmpty()) {
+  if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  next();
 }
 
 export const validateRegisterUser = [
@@ -23,7 +24,7 @@ export const validateRegisterUser = [
     .withMessage("Full name is required")
     .isLength({ min: 3 })
     .withMessage("Full name must be at least 3 characters long"),
-  body("isSeller").isBoolean().withMessage("isSeller must be a boolean value"),
+  // body("isSeller").isBoolean().withMessage("isSeller must be a boolean value"),
 
   validationRequest,
 ];

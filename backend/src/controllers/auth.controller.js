@@ -13,7 +13,7 @@ async function sendTokenResponse(user, res, message) {
   });
 }
 
-async function registerController(req, res) {
+export async function registerController(req, res) {
   const { email, contact, fullname, password, isSeller } = req.body;
 
   const isUser = await userModel.findOne({
@@ -36,7 +36,7 @@ async function registerController(req, res) {
   sendTokenResponse(user, res, "user registered succesfully");
 }
 
-async function loginController(req, res) {
+export async function loginController(req, res) {
   const { email, password } = req.body;
 
   const user = await userModel.findOne({
@@ -55,9 +55,7 @@ async function loginController(req, res) {
 
   sendTokenResponse(user, res, "user loged in succesfully");
 }
-const authController = {
-  registerController,
-  loginController,
-};
-
-export default authController;
+export async function googleCallback(req, res) {
+  console.log(req.user);
+  res.redirect("http://localhost:5173/");
+}

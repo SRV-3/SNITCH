@@ -6,6 +6,7 @@ async function sendTokenResponse(user, res, message) {
   const token = jwt.sign(
     { id: user._id, email: user.email },
     config.JWT_SECRET,
+    { expiresIn: "7d" },
   );
   res.cookie("token", token);
   res.status(201).json({
@@ -56,6 +57,26 @@ export async function loginController(req, res) {
   sendTokenResponse(user, res, "user loged in succesfully");
 }
 export async function googleCallback(req, res) {
-  console.log(req.user);
+  const { id, displayName, emails } = req.user;
+  const email = emails[0].value;
+
+  let user = await userModel.findOne({ email });
+
+  if (!user) {
+    user = await userModel.create({
+      email,
+      fullname: displayName,
+      googleId: id,
+    });
+  }
+
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    config.JWT_SECRET,
+    { expiresIn: "7d" },
+  );
+
+  res.cookie("token", token);
+
   res.redirect("http://localhost:5173/");
 }

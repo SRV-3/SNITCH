@@ -25,10 +25,15 @@ if (!process.env.NODE_ENV) {
   throw new console.error("NODE_ENV is not available in enviornment variable");
 }
 
+if (!process.env.IMAGEKIT_PRIVATE_KEY) {
+  throw new console.error("ImageKit is not available in enviornment variable");
+}
+
 export const config = {
   MONGO_URI: process.env.MONGO_URI,
   JWT_SECRET: process.env.JWT_SECRET,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NODE_ENV: process.env.NODE_ENV,
+  IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
 };

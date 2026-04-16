@@ -1,15 +1,23 @@
 import express from "express";
 import morgan from "morgan";
-import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { config } from "./config/config.js";
 
+//Routes Import
+import authRouter from "./routes/auth.routes.js";
+import productRouter from "./routes/product.routes.js";
+
+//App
 const app = express();
+
+//JSON and Cookie Parser Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+//cors setup
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -17,6 +25,8 @@ app.use(
     credentials: true,
   }),
 );
+
+//Passport and GoofleOAuth Stup
 app.use(passport.initialize());
 passport.use(
   new GoogleStrategy(
@@ -31,8 +41,11 @@ passport.use(
   ),
 );
 
+//Morgan logs all request
 app.use(morgan("dev"));
 
+//ROUTES
 app.use("/api/auth", authRouter);
+app.use("/api/product", productRouter);
 
 export default app;

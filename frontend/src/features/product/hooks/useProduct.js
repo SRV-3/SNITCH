@@ -1,4 +1,4 @@
-import {setSellerProduct} from "../states/product.slice.js"
+import {setSellerProduct} from "../state/product.slice.js"
 import { useDispatch } from "react-redux"
 import { createProduct } from "../services/product.api.js"
 

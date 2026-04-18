@@ -1,3 +1,4 @@
+import { success } from "zod";
 import productModel from "../models/product.model.js";
 import { uploadFile } from "../services/storage.service.js";
 
@@ -31,5 +32,14 @@ export async function createProduct(req, res) {
     message: "Product created successfully",
     success: true,
     product,
+  });
+}
+
+export async function getSellerProducts(req, res) {
+  const products = await productModel.find({ seller: req.user._id });
+  res.status(200).json({
+    message: "Products fetched successfully",
+    success: true,
+    products,
   });
 }

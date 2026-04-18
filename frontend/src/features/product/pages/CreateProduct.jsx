@@ -94,10 +94,10 @@ function CreateProduct() {
   /* ─────────────────────────── Render ─────────────────────────── */
 
   return (
-    <div className="h-screen overflow-hidden bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col">
+    <div className="lg:h-[calc(100vh)] lg:overflow-hidden bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col min-h-screen">
 
       {/* ── Page Header ───────────────────────────────────────────── */}
-      <header className="bg-white px-12 pt-7 pb-5 flex-shrink-0">
+      <header className="bg-white px-6 lg:px-12 pt-7 pb-5 flex-shrink-0">
         {/* Breadcrumb */}
         <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777] mb-2">
           <Link to="/" className="hover:text-black transition-colors">Dashboard</Link>
@@ -108,23 +108,23 @@ function CreateProduct() {
         </p>
 
         {/* Title + subtitle inline */}
-        <div className="flex items-baseline gap-8">
-          <h1 className="text-[2.5rem] font-bold leading-none tracking-[-0.02em] text-black uppercase flex-shrink-0">
+        <div className="flex flex-col lg:flex-row lg:items-baseline gap-2 lg:gap-8">
+          <h1 className="text-3xl lg:text-[2.5rem] font-bold leading-none tracking-[-0.02em] text-black uppercase flex-shrink-0">
             Create Product
           </h1>
-          <p className="text-[0.8rem] text-[#474747] leading-relaxed">
+          <p className="text-xs lg:text-[0.8rem] text-[#474747] leading-relaxed">
             List a new product in your seller storefront. Fill in the details below to publish to the SNITCH marketplace.
           </p>
         </div>
       </header>
 
       {/* ── Main Content ──────────────────────────────────────────── */}
-      <main className="px-12 py-6 flex-1 overflow-hidden">
-        <form onSubmit={handleSubmit} className="h-full">
-          <div className="flex gap-16 items-start h-full">
+      <main className="px-6 lg:px-12 py-6 flex-1 lg:overflow-hidden">
+        <form onSubmit={handleSubmit} className="lg:h-full">
+          <div className="flex flex-col gap-10 lg:flex-row lg:gap-16 lg:items-start lg:h-full">
 
             {/* ── LEFT COLUMN — Product Details (60%) ───────────── */}
-            <div className="flex-[6] flex flex-col gap-7 h-full overflow-y-auto pr-1">
+            <div className="lg:flex-[6] flex flex-col gap-7 lg:h-full lg:overflow-y-auto lg:pr-1">
 
               {/* Section heading */}
               <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777]">
@@ -164,7 +164,7 @@ function CreateProduct() {
                 <span className="block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black mb-4">
                   Pricing
                 </span>
-                <div className="flex gap-12">
+                <div className="flex flex-col sm:flex-row gap-6 lg:gap-12">
                   <EditorialInput label="Amount">
                     <input
                       type="number"
@@ -197,7 +197,7 @@ function CreateProduct() {
               </div>
 
               {/* ── Action Bar ──────────────────────────────────── */}
-              <div className="flex items-center gap-10 pt-2 mt-auto">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-10 pt-2 lg:mt-auto">
                 <button
                   type="submit"
                   id="publish-product-btn"
@@ -218,7 +218,7 @@ function CreateProduct() {
             </div>
 
             {/* ── RIGHT COLUMN — Image Upload (40%) ─────────────── */}
-            <div className="flex-[4] flex flex-col gap-5 h-full overflow-y-auto">
+            <div className="lg:flex-[4] flex flex-col gap-5 lg:h-full lg:overflow-y-auto lg:pl-1">
 
               {/* Section heading */}
               <div className="flex items-baseline justify-between">

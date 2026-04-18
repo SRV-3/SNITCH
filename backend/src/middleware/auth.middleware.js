@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import { config } from "../config/config,js";
+import { config } from "../config/config.js";
 import userModel from "../models/user.model.js";
 
 export const authenticateSeller = async (req, res, next) => {
-  const token = res.cookies.token;
+  const token = req.cookies.token;
 
   if (!token) {
     return res.status(401).json({
@@ -13,7 +13,7 @@ export const authenticateSeller = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET);
-    const user = await userModel.findOne(decoded.id);
+    const user = await userModel.findById(decoded.id);
     if (!user) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -26,7 +26,7 @@ export const authenticateSeller = async (req, res, next) => {
     }
     req.user = user;
   } catch (error) {
-    console.log(err);
+    console.log(error);
     return res.status(401).json({ message: "Unauthorized" });
   }
 

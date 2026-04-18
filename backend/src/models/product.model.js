@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema(
         default: "INR",
       },
     },
-    Image: [
+    images: [
       {
         url: {
           type: String,
@@ -34,6 +34,6 @@ const productSchema = new mongoose.Schema(
   { Timestamp: true },
 );
 
-const productModel = mongoose.createModel("products", productSchema);
+const productModel = mongoose.model("products", productSchema);
 
 export default productModel;

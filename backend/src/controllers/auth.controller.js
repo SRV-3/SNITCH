@@ -32,6 +32,7 @@ export async function registerController(req, res) {
     contact,
     fullname,
     password,
+    role: isSeller ? "seller" : "buyer",
   });
 
   sendTokenResponse(user, res, "user registered succesfully");

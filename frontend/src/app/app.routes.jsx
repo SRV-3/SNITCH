@@ -5,11 +5,12 @@ import CreateProduct from "../features/product/pages/CreateProduct";
 import Dashboard from "../features/product/pages/Dashboard";
 import Protected from "../features/auth/components/Protected";
 import SellerProductDetails from "../features/product/pages/SellerProductDetails";
+import Home from "../features/product/pages/Home";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <h1>Welcome to snitch</h1>
+        element: <Home/>
     },
     {
         path: "/login",

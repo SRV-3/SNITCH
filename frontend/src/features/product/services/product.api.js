@@ -15,6 +15,11 @@ export const getSellerProducts = async () => {
     return response.data;
 };
 
+export const getAllProducts = async () => {
+    const response = await productApiInstance.get("/");
+    return response.data;
+};
+
 export const getProductById = async (id) => {
     const response = await productApiInstance.get(`/${id}`);
     return response.data;

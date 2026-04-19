@@ -11,8 +11,6 @@ const Protected = ({ children, role = "buyer" }) => {
         return <div>Loading...</div>
     }
 
-    console.log(user)
-
     if (!user) {
         return <Navigate to="/login" />
     }

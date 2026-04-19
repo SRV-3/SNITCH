@@ -15,6 +15,6 @@ const router = Router();
 
 router.post('/', authenticateSeller, upload.array('images', 7), createProduct);
 router.get('/seller-products', authenticateSeller, getSellerProducts);
-router.get('/seller/product/:id', authenticateSeller, productDetails);
+router.get('/:id', authenticateSeller, productDetails);
 
 export default router;

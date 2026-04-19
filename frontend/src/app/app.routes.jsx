@@ -5,6 +5,7 @@ import CreateProduct from "../features/product/pages/CreateProduct";
 import Dashboard from "../features/product/pages/Dashboard";
 import Protected from "../features/auth/components/Protected";
 import SellerProductDetails from "../features/product/pages/SellerProductDetails";
+import ProductDetails from "../features/product/pages/ProductDetails";
 import Home from "../features/product/pages/Home";
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />
+    },
+    {
+        path: "/product/:id",
+        element: <ProductDetails />
     },
     {
         path: "/seller",

@@ -100,9 +100,9 @@ function CreateProduct() {
       <header className="bg-white px-6 lg:px-12 pt-7 pb-5 flex-shrink-0">
         {/* Breadcrumb */}
         <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777] mb-2">
-          <Link to="/" className="hover:text-black transition-colors">Dashboard</Link>
-          <span className="mx-2">/</span>
-          <Link to="/products" className="hover:text-black transition-colors">Products</Link>
+          <Link to="/seller/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
+          {/* <span className="mx-2">/</span> */}
+          {/* <Link to="/seller/products" className="hover:text-black transition-colors">Products</Link> */}
           <span className="mx-2">/</span>
           <span className="text-black">Create</span>
         </p>

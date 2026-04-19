@@ -54,9 +54,9 @@ const Home = () => {
             </header>
 
             {/* Split Hero Section */}
-            <section className="flex flex-col lg:flex-row w-full h-[60vh] lg:h-[80vh] bg-black">
+            <section className="flex flex-col lg:flex-row w-full min-h-screen lg:min-h-0 lg:h-[80vh] bg-black">
                  {/* Left: Huge Editorial Image */}
-                 <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-[#1a1a1a] overflow-hidden relative">
+                 <div className="w-full lg:w-1/2 h-[50vh] lg:h-full bg-[#1a1a1a] overflow-hidden relative shrink-0">
                      <img 
                         src="https://images.unsplash.com/photo-1603189343302-e603f7add05a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                         className="w-full h-full object-cover opacity-90" 
@@ -65,7 +65,7 @@ const Home = () => {
                  </div>
                  
                  {/* Right: Solid Black Block with Huge Typography */}
-                 <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col items-start justify-center px-8 lg:px-24 bg-black">
+                 <div className="w-full lg:w-1/2 flex-1 lg:h-full flex flex-col items-start justify-center px-6 py-16 lg:py-0 lg:px-24 bg-black">
                      <span className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#c6c6c6] mb-6">
                          Season Update
                      </span>

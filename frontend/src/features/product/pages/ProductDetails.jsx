@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, Link, useNavigate } from 'react-router';
 import { useProduct } from '../hooks/useProduct';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser } from '../../auth/state/auth.slice';
 
-const SellerProductDetails = () => {
+const ProductDetails = () => {
     const { id } = useParams();
     const { handleGetProductById } = useProduct();
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [activeImage, setActiveImage] = useState(0);
+
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let isMounted = true;
@@ -41,8 +47,8 @@ const SellerProductDetails = () => {
         return (
             <div className="min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center p-6 text-center">
                 <h1 className="text-3xl font-bold uppercase tracking-[-0.02em]">Product Not Found</h1>
-                <Link to="/dashboard" className="mt-8 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777] hover:text-black border-b-[1px] border-black pb-1">
-                    Return to Dashboard
+                <Link to="/" className="mt-8 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777] hover:text-black border-b-[1px] border-black pb-1">
+                    Return to Storefront
                 </Link>
             </div>
         );
@@ -51,28 +57,42 @@ const SellerProductDetails = () => {
     return (
         <div className="lg:h-[calc(100vh)] lg:overflow-hidden bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col min-h-screen">
             
-            {/* Header Area */}
-            <header className="px-6 lg:px-12 py-6 bg-[#ffffff] shrink-0 border-b-2 border-transparent">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-10">
-                    <div className="flex flex-col gap-4">
-                        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777]">
-                            <Link to="/seller/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
-                            <span className="mx-2">/</span>
-                            <span className="hover:text-black transition-colors cursor-pointer">Product</span>
-                            <span className="mx-2">/</span>
-                            <span className="text-black">REF. {product._id?.slice(-6).toUpperCase() || 'UNKNOWN'}</span>
-                        </p>
-                    </div>
-
-                    <div className="flex items-center gap-6">
-                        <button className="bg-transparent text-[#ba1a1a] px-0 py-2 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:text-red-700 transition-colors duration-300">
-                            Delete
-                        </button>
-                        <button className="bg-[#000000] text-white px-8 py-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:bg-[#3b3b3b] transition-colors duration-300">
-                            Edit Product
-                        </button>
-                    </div>
-                </div>
+            {/* Consumer Top Navigation */}
+            <header className="px-6 lg:px-12 py-6 bg-white flex justify-between items-center shrink-0 border-b-2 border-transparent">
+                 <Link to="/" className="text-3xl font-bold tracking-[-0.04em] uppercase text-black leading-none">
+                     SNITCH
+                 </Link>
+                 <div className="flex items-center gap-6 lg:gap-10">
+                     {user?.role === 'seller' && (
+                         <Link to="/seller/dashboard" className="hidden sm:block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
+                             Dashboard
+                         </Link>
+                     )}
+                     
+                     {user ? (
+                         <div className="flex items-center gap-4 lg:gap-6">
+                             <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black">
+                                 {user.fullname || user.name || 'User'}
+                             </span>
+                             <button 
+                                 onClick={() => {
+                                     dispatch(setUser(null));
+                                     navigate('/');
+                                 }} 
+                                 className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#ed5a5a] hover:text-[#ba1a1a] transition-colors"
+                             >
+                                 Logout
+                             </button>
+                         </div>
+                     ) : (
+                         <Link to="/login" className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
+                             Login / Register
+                         </Link>
+                     )}
+                     <button className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
+                         Cart (0)
+                     </button>
+                 </div>
             </header>
 
             {/* Main Content Split */}
@@ -118,7 +138,7 @@ const SellerProductDetails = () => {
                         )}
                     </div>
 
-                    {/* Right Column (40%) - Fixed Metadata */}
+                    {/* Right Column (40%) - Fixed Metadata & Checkout Actions */}
                     <div className="w-full lg:w-[40%] flex flex-col gap-8 lg:h-full lg:overflow-y-auto lg:pr-2">
                         {/* Title block */}
                         <div>
@@ -128,16 +148,6 @@ const SellerProductDetails = () => {
                             <h1 className="text-3xl lg:text-[2.75rem] font-bold leading-[1.1] tracking-[-0.02em] text-black uppercase">
                                 {product.title}
                             </h1>
-                        </div>
-
-                        {/* Description */}
-                        <div>
-                            <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#777777] mb-2">
-                                Details
-                            </span>
-                            <p className="text-[#1a1c1c] text-sm lg:text-[0.9375rem] leading-[1.8] max-w-[480px]">
-                                {product.description}
-                            </p>
                         </div>
 
                         {/* Price Block */}
@@ -151,6 +161,26 @@ const SellerProductDetails = () => {
                                     {product.price?.amount ? new Intl.NumberFormat('en-IN').format(product.price.amount) : '0'}
                                 </span>
                             </div>
+                        </div>
+
+                        {/* Consumer Actions - Buy / Add to Cart */}
+                        <div className="flex flex-col xl:flex-row gap-3 pt-6 max-w-[480px]">
+                            <button className="flex-1 bg-black text-white py-5 px-4 text-[0.625rem] font-bold uppercase tracking-[0.14em] hover:bg-[#3b3b3b] transition-colors text-center w-full">
+                                Buy Now
+                            </button>
+                            <button className="flex-1 bg-transparent text-black py-5 px-4 text-[0.625rem] font-bold uppercase tracking-[0.14em] border-2 border-black hover:bg-[#eeeeee] transition-colors text-center w-full">
+                                Add To Cart
+                            </button>
+                        </div>
+
+                        {/* Description */}
+                        <div className="mt-4">
+                            <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#777777] mb-2">
+                                Details
+                            </span>
+                            <p className="text-[#1a1c1c] text-sm lg:text-[0.9375rem] leading-[1.8] max-w-[480px]">
+                                {product.description}
+                            </p>
                         </div>
 
                         {/* Metadata Blocks */}
@@ -176,4 +206,4 @@ const SellerProductDetails = () => {
     );
 };
 
-export default SellerProductDetails;
+export default ProductDetails;

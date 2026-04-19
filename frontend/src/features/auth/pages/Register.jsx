@@ -26,8 +26,20 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister(formData);
-    navigate("/");
+
+    try {
+      const user = await handleRegister(formData);
+
+      if(user.role === "buyer"){
+
+        navigate("/")
+      }else if(user.role === "seller"){
+
+        navigate("/seller/dashboard")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const user = useSelector((state) => state.auth.user);

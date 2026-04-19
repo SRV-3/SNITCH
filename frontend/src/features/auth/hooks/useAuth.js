@@ -8,12 +8,14 @@ export const useAuth = () => {
     async function handleRegister({email,contact,password,fullname,isSeller}) {
         const data = await registerUser({email,contact,password,fullname,isSeller})
         dispatch(setUser(data))
+        return data.user
     }
 
     async function handleLogin({ email, password }) {
 
         const data = await login({ email, password })
         dispatch(setUser(data.user))
+        return data.user
     }
 
     async function handleGetMe(){

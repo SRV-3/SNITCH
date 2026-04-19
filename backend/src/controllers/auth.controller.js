@@ -7,6 +7,7 @@ async function sendTokenResponse(user, res, message) {
   res.cookie('token', token);
   res.status(201).json({
     message: message,
+    user,
   });
 }
 

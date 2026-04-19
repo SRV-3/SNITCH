@@ -25,9 +25,18 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin(formData);
-    navigate("/");
+    try {
+      const user = await handleLogin(formData);
+      if(user.role === "buyer"){
+        navigate("/")
+      }else if(user.role === "seller"){
+        navigate("/seller/dashboard")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
+  
   if (!loading && user) {
     return <Navigate to="/" replace />;
   }

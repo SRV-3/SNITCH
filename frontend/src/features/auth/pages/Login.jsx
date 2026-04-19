@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate,Navigate } from 'react-router';
 import GoogleButton from '../components/GoogleButton';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
   const { handleLogin } = useAuth();
@@ -9,6 +10,9 @@ const Login = () => {
     email: '',
     password: ''
   });
+
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.loading);
 
   const navigate = useNavigate();
 
@@ -24,6 +28,9 @@ const Login = () => {
     await handleLogin(formData);
     navigate("/");
   };
+  if (!loading && user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen flex w-full bg-[#f9f9f9] text-[#1a1c1c] font-sans">

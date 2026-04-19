@@ -1,14 +1,10 @@
-import { config } from "../config/config.js";
-import userModel from "../models/user.model.js";
-import jwt from "jsonwebtoken";
+import { config } from '../config/config.js';
+import userModel from '../models/user.model.js';
+import jwt from 'jsonwebtoken';
 
 async function sendTokenResponse(user, res, message) {
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    config.JWT_SECRET,
-    { expiresIn: "7d" },
-  );
-  res.cookie("token", token);
+  const token = jwt.sign({ id: user._id, email: user.email }, config.JWT_SECRET, { expiresIn: '7d' });
+  res.cookie('token', token);
   res.status(201).json({
     message: message,
   });
@@ -22,9 +18,7 @@ export async function registerController(req, res) {
   });
 
   if (isUser) {
-    return res
-      .status(400)
-      .json({ message: "user with these credetials already exist" });
+    return res.status(400).json({ message: 'user with these credetials already exist' });
   }
 
   const user = await userModel.create({
@@ -32,10 +26,10 @@ export async function registerController(req, res) {
     contact,
     fullname,
     password,
-    role: isSeller ? "seller" : "buyer",
+    role: isSeller ? 'seller' : 'buyer',
   });
 
-  sendTokenResponse(user, res, "user registered succesfully");
+  sendTokenResponse(user, res, 'user registered succesfully');
 }
 
 export async function loginController(req, res) {
@@ -46,16 +40,16 @@ export async function loginController(req, res) {
   });
 
   if (!user) {
-    return res.status(400).json({ message: "Invalid email or password" });
+    return res.status(400).json({ message: 'Invalid email or password' });
   }
 
   const isMatch = await user.comparePassword(password);
 
   if (!isMatch) {
-    return res.status(400).json({ message: "Invalid email or password" });
+    return res.status(400).json({ message: 'Invalid email or password' });
   }
 
-  sendTokenResponse(user, res, "user loged in succesfully");
+  sendTokenResponse(user, res, 'user loged in succesfully');
 }
 export async function googleCallback(req, res) {
   const { id, displayName, emails } = req.user;
@@ -71,13 +65,17 @@ export async function googleCallback(req, res) {
     });
   }
 
-  const token = jwt.sign(
-    { id: user.id, email: user.email },
-    config.JWT_SECRET,
-    { expiresIn: "7d" },
-  );
+  const token = jwt.sign({ id: user.id, email: user.email }, config.JWT_SECRET, { expiresIn: '7d' });
 
-  res.cookie("token", token);
+  res.cookie('token', token);
 
-  res.redirect("http://localhost:5173/");
+  res.redirect('http://localhost:5173/');
+}
+
+export async function getMe(req, res) {
+  const user = req.user;
+  res.status(200).json({
+    message: 'User fetched',
+    user,
+  });
 }

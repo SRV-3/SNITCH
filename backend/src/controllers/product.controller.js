@@ -108,8 +108,6 @@ export async function addVariants(req, res) {
   const stock = req.body.stock;
   const attributes = JSON.parse(req.body.attributes);
 
-  console.log(amount, currency, stock, attributes);
-
   product.variants.push({
     images,
     price: {
@@ -128,4 +126,53 @@ export async function addVariants(req, res) {
   });
 
   console.log(product);
+}
+
+export async function updateProduct(req, res) {
+  const productId = req.params.id;
+
+  const files = req.files;
+
+  let images;
+
+  if (files && files.length > 0) {
+    images = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await uploadFile({
+          buffer: file.buffer,
+          fileName: file.originalname,
+        });
+        return { url: result.url };
+      })
+    );
+  }
+  const { title, description, priceAmount, priceCurrency } = req.body;
+  const update = {};
+
+  if (title) update.title = title;
+  if (description) update.description = description;
+  if (priceAmount) update['price.amount'] = priceAmount;
+  if (priceCurrency) update['price.currency'] = priceCurrency;
+  if (images) {
+    update.images = images;
+  }
+
+  const product = await productModel.findOneAndUpdate(
+    { _id: productId, seller: req.user.id },
+    { $set: update },
+    { new: true }
+  );
+
+  if (!product) {
+    return res.status(404).json({
+      message: 'Product not found',
+      success: false,
+    });
+  }
+
+  res.status(200).json({
+    message: 'Product Updated successfully',
+    success: true,
+    product,
+  });
 }

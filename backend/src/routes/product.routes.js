@@ -7,6 +7,7 @@ import {
   productDetails,
   getAllProducts,
   addVariants,
+  updateProduct,
 } from '../controllers/product.controller.js';
 import { createProductValidator } from '../validators/product.validator.js';
 
@@ -24,5 +25,6 @@ router.get('/seller-products', authenticateSeller, getSellerProducts);
 router.get('/', getAllProducts);
 router.get('/:id', productDetails);
 router.post('/:id/variants', authenticateSeller, upload.array('images', 7), addVariants);
+router.patch('/:id', authenticateSeller, upload.array('images', 7), updateProduct);
 
 export default router;

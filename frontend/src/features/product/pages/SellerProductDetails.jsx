@@ -78,8 +78,8 @@ const SellerProductDetails = () => {
             // Build attributes object
             const parsedAttrs = {};
             variantForm.attributes.forEach(attr => {
-                const k = attr.key.trim();
-                const v = attr.value.trim();
+                const k = attr.key.trim().toLowerCase();
+                const v = attr.value.trim().toLowerCase();
                 if (k && v) {
                     parsedAttrs[k] = v;
                 }
@@ -178,15 +178,15 @@ const SellerProductDetails = () => {
             </header>
 
             {/* Main Content Split - Restored natural scrolling wrapper */}
-            <main className="w-full max-w-[1920px] mx-auto px-6 lg:px-12 pb-12 pt-8">
-                <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+            <main className="w-full max-w-[1920px] mx-auto px-6 lg:px-12 pb-12 pt-8 lg:pt-16">
+                <div className="flex flex-col lg:flex-row justify-center gap-8 lg:gap-16 items-start w-full max-w-[1300px] mx-auto">
                     
-                    {/* Left Column (60%) - Imagery Gallery */}
-                    <div className="w-full lg:w-[60%] flex gap-4 lg:sticky lg:top-8">
+                    {/* Left Column (Increased Width) - Imagery Gallery */}
+                    <div className="w-full lg:w-[45%] xl:w-[40%] flex gap-4 lg:sticky lg:top-8">
                         {product.images?.length > 0 ? (
                             <>
                                 {/* Thumbnails List */}
-                                <div className="w-20 lg:w-28 shrink-0 flex flex-col gap-3 overflow-y-auto max-h-[70vh] pr-1 hidden-scrollbar">
+                                <div className="w-20 lg:w-28 shrink-0 flex flex-col gap-3 overflow-y-auto max-h-[80vh] pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                                     {product.images.map((img, idx) => (
                                         <div 
                                             key={img._id || idx}
@@ -202,7 +202,7 @@ const SellerProductDetails = () => {
                                 </div>
                                 
                                 {/* Main Preview */}
-                                <div className="flex-1 w-full aspect-[4/5] lg:aspect-auto lg:h-[70vh] bg-[#eeeeee] overflow-hidden relative">
+                                <div className="flex-1 w-full aspect-[4/5] bg-[#eeeeee] overflow-hidden relative">
                                     <img 
                                         src={product.images[activeImage]?.url} 
                                         alt="Preview" 
@@ -214,14 +214,14 @@ const SellerProductDetails = () => {
                                 </div>
                             </>
                         ) : (
-                             <div className="w-full flex-1 bg-[#eeeeee] flex items-center justify-center lg:h-[70vh]">
+                             <div className="w-full flex-1 aspect-[4/5] bg-[#eeeeee] flex items-center justify-center">
                                  <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#777777]">No Media Provided</span>
                              </div>
                         )}
                     </div>
 
-                    {/* Right Column (40%) - Metadata */}
-                    <div className="w-full lg:w-[40%] flex flex-col gap-8">
+                    {/* Right Column (Expanded) - Metadata */}
+                    <div className="w-full flex-1 flex flex-col gap-8 lg:max-w-3xl lg:pl-12">
                         {/* Title block */}
                         <div>
                             <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#777777] mb-2">
@@ -325,7 +325,6 @@ const SellerProductDetails = () => {
                                             className="w-full bg-transparent border-b-2 border-black py-3 focus:outline-none focus:border-[#777777] transition-colors"
                                             value={variantForm.amount}
                                             onChange={(e) => setVariantForm({...variantForm, amount: e.target.value})}
-                                            required
                                         />
                                     </div>
                                     {/* Currency */}
@@ -336,7 +335,6 @@ const SellerProductDetails = () => {
                                             className="w-full bg-transparent border-b-2 border-black py-3 focus:outline-none focus:border-[#777777] transition-colors uppercase"
                                             value={variantForm.currency}
                                             onChange={(e) => setVariantForm({...variantForm, currency: e.target.value})}
-                                            required
                                         />
                                     </div>
                                     {/* Stock */}
@@ -348,7 +346,6 @@ const SellerProductDetails = () => {
                                             className="w-full bg-transparent border-b-2 border-black py-3 focus:outline-none focus:border-[#777777] transition-colors"
                                             value={variantForm.stock}
                                             onChange={(e) => setVariantForm({...variantForm, stock: e.target.value})}
-                                            required
                                         />
                                     </div>
                                 </div>

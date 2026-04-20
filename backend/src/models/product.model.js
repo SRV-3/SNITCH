@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import { string } from "zod";
-import { required } from "zod/mini";
+import mongoose from 'mongoose';
+import { string, url } from 'zod';
+import { required } from 'zod/mini';
 
 const productSchema = new mongoose.Schema(
   {
@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: true },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
       required: true,
     },
     price: {
@@ -18,8 +18,8 @@ const productSchema = new mongoose.Schema(
       },
       currency: {
         type: String,
-        enum: ["USD", "EUR", "GBP", "JPY", "INR"],
-        default: "INR",
+        enum: ['USD', 'EUR', 'GBP', 'JPY', 'INR'],
+        default: 'INR',
       },
     },
     images: [
@@ -30,10 +30,41 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+    variants: [
+      {
+        images: [
+          {
+            url: {
+              type: String,
+              required: true,
+            },
+          },
+        ],
+        stock: {
+          type: Number,
+          default: 0,
+        },
+        attributes: {
+          type: Map,
+          of: String,
+        },
+        price: {
+          amount: {
+            type: Number,
+            required: true,
+          },
+          currency: {
+            type: String,
+            enum: ['USD', 'EUR', 'GBP', 'JPY', 'INR'],
+            default: 'INR',
+          },
+        },
+      },
+    ],
   },
-  { Timestamp: true },
+  { Timestamp: true }
 );
 
-const productModel = mongoose.model("products", productSchema);
+const productModel = mongoose.model('products', productSchema);
 
 export default productModel;

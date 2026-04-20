@@ -24,3 +24,8 @@ export const getProductById = async (id) => {
     const response = await productApiInstance.get(`/${id}`);
     return response.data;
 };
+
+export const addVariants = async (productId, variants) => {
+    const response = await productApiInstance.post(`/${productId}/variants`, variants);
+    return response.data;
+};

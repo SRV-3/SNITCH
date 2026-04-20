@@ -70,3 +70,62 @@ export async function productDetails(req, res) {
     product,
   });
 }
+
+export async function addVariants(req, res) {
+  const productId = req.params.id;
+
+  const product = await productModel.findOne({
+    _id: productId,
+    seller: req.user.id,
+  });
+
+  if (!product) {
+    return res.status(404).json({
+      message: 'Product not found',
+      success: false,
+    });
+  }
+
+  const files = req.files;
+  const images = [];
+
+  if (files || files.length !== 0) {
+    (
+      await Promise.all(
+        files.map(async (file) => {
+          const image = await uploadFile({
+            buffer: file.buffer,
+            filename: originalname,
+          });
+          return image;
+        })
+      )
+    ).map((image) => images.push(image));
+  }
+
+  const amount = req.body.amount;
+  const currency = req.body.currency;
+  const stock = req.body.stock;
+  const attributes = JSON.parse(req.body.attributes);
+
+  console.log(amount, currency, stock, attributes);
+
+  product.variants.push({
+    images,
+    price: {
+      amount: amount || product.price.amount,
+      currency: currency || product.price.currency,
+    },
+    stock,
+    attributes,
+  });
+
+  await product.save();
+  return res.status(200).json({
+    message: 'Product variant added successfully',
+    success: true,
+    product,
+  });
+
+  console.log(product);
+}

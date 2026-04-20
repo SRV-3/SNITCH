@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, Link ,useNavigate} from 'react-router';
 import { useProduct } from '../hooks/useProduct';
 
 const SellerProductDetails = () => {
@@ -8,6 +8,8 @@ const SellerProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [activeImage, setActiveImage] = useState(0);
+
+    const navigate = useNavigate();
 
     // Variant Form State
     const [isSubmittingVariant, setIsSubmittingVariant] = useState(false);
@@ -170,7 +172,7 @@ const SellerProductDetails = () => {
                         <button className="bg-transparent text-[#ba1a1a] px-0 py-2 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:text-red-700 transition-colors duration-300">
                             Delete
                         </button>
-                        <button className="bg-[#000000] text-white px-8 py-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:bg-[#3b3b3b] transition-colors duration-300">
+                        <button onClick={()=>{navigate(`/seller/product/${id}/edit`)}} className="bg-[#000000] text-white px-8 py-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:bg-[#3b3b3b] transition-colors duration-300">
                             Edit Product
                         </button>
                     </div>

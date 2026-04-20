@@ -29,3 +29,8 @@ export const addVariants = async (productId, variants) => {
     const response = await productApiInstance.post(`/${productId}/variants`, variants);
     return response.data;
 };
+
+export const updateProduct = async (productId, product) => {
+    const response = await productApiInstance.patch(`/${productId}`, product);
+    return response.data;
+};

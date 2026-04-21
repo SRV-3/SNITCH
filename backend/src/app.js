@@ -13,6 +13,7 @@ import cartRoutes from './routes/cart.routes.js';
 
 //App
 const app = express();
+app.use(express.static('public'));
 
 //JSON and Cookie Parser Middleware
 app.use(express.json());
@@ -49,5 +50,9 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart/', cartRoutes);
+
+app.get('*name', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', './public/index.html'));
+});
 
 export default app;

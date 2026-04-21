@@ -85,7 +85,7 @@ const Dashboard = () => {
                                             <div className="text-xl font-bold tracking-tight text-black flex items-baseline gap-1">
                                                 <span className="text-sm font-medium">{product.price?.currency || 'INR'}</span>
                                                 <span>
-                                                    {product.price?.amount ? new Intl.NumberFormat('en-IN').format(product.price.amount) : '0'}
+                                                    {product.price.price.amount ? new Intl.NumberFormat('en-IN').format(product.price.price.amount) : '0'}
                                                 </span>
                                             </div>
                                         </div>

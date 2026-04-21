@@ -7,6 +7,8 @@ export async function createProduct(req, res) {
   const { title, description, priceAmount, priceCurrency } = req.body;
   const seller = req.user;
 
+  console.log(priceAmount);
+
   const images = await Promise.all(
     req.files.map(async (file) => {
       const result = await uploadFile({
@@ -22,8 +24,10 @@ export async function createProduct(req, res) {
     description: description,
 
     price: {
-      amount: priceAmount,
-      currency: priceCurrency || 'INR',
+      price: {
+        amount: priceAmount,
+        currency: priceCurrency || 'INR',
+      },
     },
     images,
     seller: seller.id,
@@ -108,11 +112,16 @@ export async function addVariants(req, res) {
   const stock = req.body.stock;
   const attributes = JSON.parse(req.body.attributes);
 
+  console.log(amount); //1299
+  console.log(product.price.amount);
+
   product.variants.push({
     images,
     price: {
-      amount: amount || product.price.amount,
-      currency: currency || product.price.currency,
+      price: {
+        amount: amount || product.price.price.amount,
+        currency: currency || product.price.price.currency,
+      },
     },
     stock,
     attributes,
@@ -124,8 +133,6 @@ export async function addVariants(req, res) {
     success: true,
     product,
   });
-
-  console.log(product);
 }
 
 export async function updateProduct(req, res) {

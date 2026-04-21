@@ -1,6 +1,5 @@
 import app from './src/app.js';
 import conectToDb from './src/config/database.js';
-
 const startServer = () => {
   conectToDb();
   try {

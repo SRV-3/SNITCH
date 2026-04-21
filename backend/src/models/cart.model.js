@@ -1,22 +1,22 @@
 import mongoose from 'mongoose';
-import { required } from 'zod/mini';
+import priceSchema from './price.schema.js';
 
 const cartSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: user,
+    ref: 'user',
     required: true,
   },
   items: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: product,
+        ref: 'product',
         required: true,
       },
       variant: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: product.varians,
+        ref: 'product.varians',
       },
       quantity: {
         type: Number,

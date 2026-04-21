@@ -17,7 +17,7 @@ const SellerProductDetails = () => {
         attributes: [{ key: '', value: '' }],
         amount: '',
         currency: '',
-        stock: '',
+        stock: 0,
         images: []
     });
 
@@ -252,7 +252,7 @@ const SellerProductDetails = () => {
                             <div className="text-3xl font-bold tracking-tight text-black flex items-baseline gap-2">
                                 <span className="text-xl font-medium">{product.price?.currency || 'INR'}</span>
                                 <span>
-                                    {product.price?.amount ? new Intl.NumberFormat('en-IN').format(product.price.amount) : '0'}
+                                    {product.price.price.amount ? new Intl.NumberFormat('en-IN').format(product.price.price.amount) : '0'}
                                 </span>
                             </div>
                         </div>
@@ -326,6 +326,7 @@ const SellerProductDetails = () => {
                                             type="number" 
                                             className="w-full bg-transparent border-b-2 border-black py-3 focus:outline-none focus:border-[#777777] transition-colors"
                                             value={variantForm.amount}
+                                            placeholder={product.price.price.amount}
                                             onChange={(e) => setVariantForm({...variantForm, amount: e.target.value})}
                                         />
                                     </div>
@@ -348,6 +349,7 @@ const SellerProductDetails = () => {
                                             className="w-full bg-transparent border-b-2 border-black py-3 focus:outline-none focus:border-[#777777] transition-colors"
                                             value={variantForm.stock}
                                             onChange={(e) => setVariantForm({...variantForm, stock: e.target.value})}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -414,7 +416,7 @@ const SellerProductDetails = () => {
                                                     
                                                     <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-1">
                                                         <span className="text-xs font-bold uppercase text-[#777777]">
-                                                            {v.price?.currency || 'INR'} <span className="text-black ml-1">{new Intl.NumberFormat('en-IN').format(v.price?.amount || 0)}</span>
+                                                            {v.price.price?.currency || 'INR'} <span className="text-black ml-1">{new Intl.NumberFormat('en-IN').format(v.price.price?.amount || 0)}</span>
                                                         </span>
                                                         <span className={`text-xs font-bold uppercase tracking-wider ${v.stock > 0 ? 'text-[#1a1c1c]' : 'text-[#ba1a1a]'}`}>
                                                             {v.stock > 0 ? `${v.stock} IN STOCK` : 'OUT OF STOCK'}

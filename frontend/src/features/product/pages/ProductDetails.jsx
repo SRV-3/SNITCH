@@ -63,7 +63,7 @@ const ProductDetails = () => {
     };
 
     const displayImages = (selectedVariant?.images?.length > 0) ? selectedVariant.images : (product?.images || []);
-    const displayPrice = selectedVariant?.price || product?.price;
+    const displayPrice = selectedVariant?.price.price || product?.price.price;
 
     useEffect(() => {
         let isMounted = true;

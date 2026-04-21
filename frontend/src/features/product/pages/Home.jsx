@@ -126,7 +126,7 @@ const Home = () => {
                                         
                                         <div className="text-2xl font-bold tracking-tight text-black flex items-baseline gap-1 mt-auto">
                                             <span className="text-sm font-medium">{product.price?.currency || 'INR'}</span>
-                                            <span>{product.price?.amount ? new Intl.NumberFormat('en-IN').format(product.price.amount) : '0'}</span>
+                                            <span>{product.price.price.amount ? new Intl.NumberFormat('en-IN').format(product.price.price.amount) : '0'}</span>
                                         </div>
 
                                         {/* Actions */}

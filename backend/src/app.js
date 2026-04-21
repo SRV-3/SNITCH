@@ -51,8 +51,8 @@ app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart/', cartRoutes);
 
-//app.get('*name', (req, res) => {
-  //res.sendFile(path.join(__dirname, '..', './public/index.html'));
-//});
+app.get('*name', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', './public/index.html'));
+});
 
 export default app;

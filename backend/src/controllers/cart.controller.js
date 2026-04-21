@@ -1,6 +1,7 @@
 import cartModel from '../models/cart.model.js';
 import productModel from '../models/product.model.js';
 import { getStock } from '../dao/product.dao.js';
+import { success } from 'zod';
 
 export async function addToCart(req, res) {
   const { productId, variantId } = req.params;
@@ -74,13 +75,27 @@ export async function addToCart(req, res) {
 }
 export async function getCart(req, res) {
   const cart = await cartModel.find({ user: req.user.id });
-  const id = '69e71fc7be501a10fa830391';
+
+  if (!cart) {
+    return res.status(400).json({
+      message: `No cart available for you`,
+      success: false,
+    });
+  }
+
   const productIds = cart[0].items.map((item) => item.product);
   const variantIds = cart[0].items.map((item) => item.variant);
 
   const products = await productModel.find({
     _id: { $in: productIds },
   });
+
+  if (!products) {
+    return res.status(400).json({
+      message: `Products are not available`,
+      success: false,
+    });
+  }
 
   const items = [];
   const cartItems = cart[0].items.map((item) => {
@@ -104,5 +119,9 @@ export async function getCart(req, res) {
 
   console.log(items);
 
-  res.send(items);
+  res.status(200).json({
+    message: `cart fetched`,
+    success: success,
+    items,
+  });
 }

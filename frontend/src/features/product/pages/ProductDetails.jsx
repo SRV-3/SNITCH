@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router';
 import { useProduct } from '../hooks/useProduct';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../../auth/state/auth.slice';
+import {useCart} from '../../cart/hooks/useCart.js';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -13,6 +14,9 @@ const ProductDetails = () => {
     const [selectedAttributes, setSelectedAttributes] = useState({});
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+
+    //Uing Cart Hooks
+    const {handleAddToCart} = useCart();
 
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -258,6 +262,7 @@ const ProductDetails = () => {
                                 {product?.variants?.length > 0 && !selectedVariant ? "Select Options" : "Buy Now"}
                             </button>
                             <button 
+                                onClick={()=>{handleAddToCart({productId:product._id, variantId:selectedVariant._id})}}
                                 disabled={product?.variants?.length > 0 && (!selectedVariant || selectedVariant.stock === 0)}
                                 className="flex-1 bg-transparent text-black py-5 px-4 text-[0.625rem] font-bold uppercase tracking-[0.14em] border-2 border-black hover:bg-[#eeeeee] disabled:border-[#cccccc] disabled:text-[#cccccc] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors text-center w-full"
                             >

@@ -3,9 +3,11 @@ import { useProduct } from '../hooks/useProduct';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { setUser } from '../../auth/state/auth.slice';
+import { useCart } from '../../cart/hooks/useCart';
 
 const Home = () => {
     const { handleGetAllProducts } = useProduct();
+    const { handleAddToCart } = useCart();
     const products = useSelector((state) => state.product.products) || [];
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -134,9 +136,12 @@ const Home = () => {
                                             <button className="flex-1 bg-black text-white py-4 px-2 text-[0.625rem] font-bold uppercase tracking-[0.14em] hover:bg-[#3b3b3b] transition-colors text-center w-full">
                                                 Buy Now
                                             </button>
-                                            <button className="flex-1 bg-transparent text-black py-4 px-2 text-[0.625rem] font-bold uppercase tracking-[0.14em] border-2 border-black hover:bg-[#eeeeee] transition-colors text-center w-full">
+                                            {/* handleAddToCart({productId:product._id,variantId:product.variants[0]._id}) */}
+                                            {/* <button 
+                                            onClick={()=>{console.log(product.variants)}}
+                                            className="flex-1 bg-transparent text-black py-4 px-2 text-[0.625rem] font-bold uppercase tracking-[0.14em] border-2 border-black hover:bg-[#eeeeee] transition-colors text-center w-full">
                                                 Add To Cart
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 </div>

@@ -18,6 +18,6 @@ router.post('/add/:productId/:variantId', authenticateUser, addToCart);
  * @desc Get all cart items
  * @access Private
  */
-router.post('/', authenticateUser, getCart);
+router.get('/', authenticateUser, getCart);
 
 export default router;

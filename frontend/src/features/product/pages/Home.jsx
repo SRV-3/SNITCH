@@ -49,9 +49,9 @@ const Home = () => {
                              Login / Register
                          </Link>
                      )}
-                     <button className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                         Cart (0)
-                     </button>
+                     <Link to="/cart" className="hidden sm:block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
+                             Cart (0)
+                         </Link>
                  </div>
             </header>
 

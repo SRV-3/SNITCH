@@ -1,4 +1,3 @@
-import { success } from 'zod';
 import productModel from '../models/product.model.js';
 import { uploadFile } from '../services/storage.service.js';
 import { param } from 'express-validator';

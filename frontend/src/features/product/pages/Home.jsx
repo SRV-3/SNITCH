@@ -2,15 +2,13 @@ import React, { useEffect } from 'react';
 import { useProduct } from '../hooks/useProduct';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
-import { setUser } from '../../auth/state/auth.slice';
 import { useCart } from '../../cart/hooks/useCart';
+import Navbar from '../../../shared/components/Navbar';
 
 const Home = () => {
     const { handleGetAllProducts } = useProduct();
     const { handleAddToCart } = useCart();
     const products = useSelector((state) => state.product.products) || [];
-    const user = useSelector((state) => state.auth.user);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,58 +19,26 @@ const Home = () => {
         <div className="min-h-screen bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col">
             
             {/* Top Navigation */}
-            <header className="px-6 lg:px-12 py-6 bg-white flex justify-between items-center shrink-0 sticky top-0 z-50">
-                 <Link to="/" className="text-3xl font-bold tracking-[-0.04em] uppercase text-black leading-none">
-                     SNITCH
-                 </Link>
-                 <div className="flex items-center gap-6 lg:gap-10">
-                     {user?.role === 'seller' && (
-                         <Link to="/seller/dashboard" className="hidden sm:block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                             Dashboard
-                         </Link>
-                     )}
-                     
-                     {user ? (
-                         <div className="flex items-center gap-4 lg:gap-6">
-                             <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black">
-                                 {user.fullname || user.name || 'User'}
-                             </span>
-                             <button 
-                                 onClick={() => dispatch(setUser(null))} 
-                                 className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#ed5a5a] hover:text-[#ba1a1a] transition-colors"
-                             >
-                                 Logout
-                             </button>
-                         </div>
-                     ) : (
-                         <Link to="/login" className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                             Login / Register
-                         </Link>
-                     )}
-                     <Link to="/cart" className="hidden sm:block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                             Cart (0)
-                         </Link>
-                 </div>
-            </header>
+            <Navbar />
 
             {/* Split Hero Section */}
             <section className="flex flex-col lg:flex-row w-full min-h-screen lg:min-h-0 lg:h-[80vh] bg-black">
                  {/* Left: Huge Editorial Image */}
-                 <div className="w-full lg:w-1/2 h-[50vh] lg:h-full bg-[#1a1a1a] overflow-hidden relative shrink-0">
+                 <div className="w-full lg:w-2/3 h-[50vh] lg:h-full bg-[#1a1a1a] overflow-hidden relative shrink-0">
                      <img 
-                        src="https://images.unsplash.com/photo-1603189343302-e603f7add05a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                        className="w-full h-full object-cover opacity-90" 
+                        src="https://images.unsplash.com/photo-1544957992-20514f595d6f?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                        className="w-full h-full object-cover " 
                         alt="Fashion editorial" 
                      />
                  </div>
                  
                  {/* Right: Solid Black Block with Huge Typography */}
-                 <div className="w-full lg:w-1/2 flex-1 lg:h-full flex flex-col items-start justify-center px-6 py-16 lg:py-0 lg:px-24 bg-black">
+                 <div className="w-full lg:w-1/3 flex-1 lg:h-full flex flex-col items-start justify-center px-6 py-16 lg:py-0 lg:px-24 bg-black">
                      <span className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#c6c6c6] mb-6">
                          Season Update
                      </span>
                      <h1 className="text-white text-5xl lg:text-[6rem] font-bold leading-[1] tracking-[-0.02em]">
-                         THE <br />SPRING EDIT
+                         THE <br />SUMMER EDIT
                      </h1>
                      <button className="mt-12 bg-transparent text-white border-b-2 border-white pb-2 text-[0.75rem] font-bold uppercase tracking-[0.14em] hover:text-[#c6c6c6] hover:border-[#c6c6c6] transition-colors">
                          Explore Collection

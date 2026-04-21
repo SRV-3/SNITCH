@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import { useProduct } from '../hooks/useProduct';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../../auth/state/auth.slice';
 import {useCart} from '../../cart/hooks/useCart.js';
+import Navbar from '../../../shared/components/Navbar';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -18,7 +18,6 @@ const ProductDetails = () => {
     //Uing Cart Hooks
     const {handleAddToCart} = useCart();
 
-    const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -112,42 +111,7 @@ const ProductDetails = () => {
         <div className="bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col min-h-screen">
             
             {/* Consumer Top Navigation */}
-            <header className="px-6 lg:px-12 py-6 bg-white flex justify-between items-center shrink-0 border-b-2 border-transparent">
-                 <Link to="/" className="text-3xl font-bold tracking-[-0.04em] uppercase text-black leading-none">
-                     SNITCH
-                 </Link>
-                 <div className="flex items-center gap-6 lg:gap-10">
-                     {user?.role === 'seller' && (
-                         <Link to="/seller/dashboard" className="hidden sm:block text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                             Dashboard
-                         </Link>
-                     )}
-                     
-                     {user ? (
-                         <div className="flex items-center gap-4 lg:gap-6">
-                             <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black">
-                                 {user.fullname || user.name || 'User'}
-                             </span>
-                             <button 
-                                 onClick={() => {
-                                     dispatch(setUser(null));
-                                     navigate('/');
-                                 }} 
-                                 className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#ed5a5a] hover:text-[#ba1a1a] transition-colors"
-                             >
-                                 Logout
-                             </button>
-                         </div>
-                     ) : (
-                         <Link to="/login" className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                             Login / Register
-                         </Link>
-                     )}
-                     <button className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-black hover:text-[#777777] transition-colors">
-                         Cart (0)
-                     </button>
-                 </div>
-            </header>
+            <Navbar />
 
             {/* Main Content Split */}
             <main className="flex-1 w-full max-w-[1920px] mx-auto px-6 lg:px-12 pb-12 pt-8 lg:pt-16">

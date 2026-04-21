@@ -1,7 +1,6 @@
 import cartModel from '../models/cart.model.js';
 import productModel from '../models/product.model.js';
 import { getStock } from '../dao/product.dao.js';
-import { success } from 'zod';
 
 export async function addToCart(req, res) {
   const { productId, variantId } = req.params;

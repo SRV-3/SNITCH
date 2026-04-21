@@ -6,6 +6,12 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { config } from './config/config.js';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 //Routes Import
 import authRouter from './routes/auth.routes.js';
 import productRouter from './routes/product.routes.js';
@@ -13,7 +19,7 @@ import cartRoutes from './routes/cart.routes.js';
 
 //App
 const app = express();
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 //JSON and Cookie Parser Middleware
 app.use(express.json());
@@ -22,7 +28,7 @@ app.use(cookieParser());
 //cors setup
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://your-frontend.onrender.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
@@ -51,8 +57,10 @@ app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart/', cartRoutes);
 
-app.get('*name', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', './public/index.html'));
+app.get('*name', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) return next();
+
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 export default app;

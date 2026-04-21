@@ -4,10 +4,16 @@ import jwt from 'jsonwebtoken';
 
 async function sendTokenResponse(user, res, message) {
   const token = jwt.sign({ id: user._id, email: user.email }, config.JWT_SECRET, { expiresIn: '7d' });
-  res.cookie('token', token);
+  (res.cookie('token', token),
+    {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
   res.status(201).json({
     message: message,
     user,
+    token,
   });
 }
 

@@ -1,19 +1,25 @@
 import React, { useEffect } from 'react';
 import { useProduct } from '../hooks/useProduct';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import { useCart } from '../../cart/hooks/useCart';
 import Navbar from '../../../shared/components/Navbar';
 
 const Home = () => {
-    const { handleGetAllProducts } = useProduct();
+    const { handleGetAllProducts, handleSearchProducts } = useProduct();
     const { handleAddToCart } = useCart();
     const products = useSelector((state) => state.product.products) || [];
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        handleGetAllProducts();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+        const query = searchParams.get('q');
+        if (query) {
+            handleSearchProducts(query);
+        } else {
+            handleGetAllProducts();
+        }
+    }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="min-h-screen bg-[#f9f9f9] font-sans text-[#1a1c1c] flex flex-col">

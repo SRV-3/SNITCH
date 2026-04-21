@@ -118,7 +118,7 @@ export async function getCart(req, res) {
 
   res.status(200).json({
     message: `cart fetched`,
-    success: success,
+    success: false,
     items,
   });
 }

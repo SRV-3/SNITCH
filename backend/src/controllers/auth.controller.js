@@ -2,7 +2,7 @@ import { config } from '../config/config.js';
 import userModel from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
 
-async function sendTokenResponse(user, res, message) {
+async function sendTokenResponse(user, res, message, status) {
   const token = jwt.sign({ id: user._id, email: user.email }, config.JWT_SECRET, { expiresIn: '7d' });
   (res.cookie('token', token),
     {
@@ -10,10 +10,9 @@ async function sendTokenResponse(user, res, message) {
       secure: true,
       sameSite: 'none',
     });
-  res.status(201).json({
+  res.status(status).json({
     message: message,
     user,
-    token,
   });
 }
 
@@ -36,7 +35,7 @@ export async function registerController(req, res) {
     role: isSeller ? 'seller' : 'buyer',
   });
 
-  sendTokenResponse(user, res, 'user registered succesfully');
+  sendTokenResponse(user, res, 'user registered succesfully', 201);
 }
 
 export async function loginController(req, res) {
@@ -56,7 +55,7 @@ export async function loginController(req, res) {
     return res.status(400).json({ message: 'Invalid email or password' });
   }
 
-  sendTokenResponse(user, res, 'user loged in succesfully');
+  sendTokenResponse(user, res, 'user loged in succesfully', 200);
 }
 export async function googleCallback(req, res) {
   const { id, displayName, emails } = req.user;

@@ -9,6 +9,7 @@ import ProductDetails from "../features/product/pages/ProductDetails";
 import Home from "../features/product/pages/Home";
 import EditProduct from "../features/product/pages/EditProduct";
 import Cart from "../features/cart/pages/Cart";
+import SearchPage from "../shared/pages/SearchPage";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
     {
         path: "/cart",
         element:<Cart />
+    },
+    {
+        path: "/search",
+        element:<SearchPage />
     }
 ])
 

@@ -207,13 +207,13 @@ function CreateProduct() {
                   {isSubmitting ? 'Publishing…' : 'Publish Product'}
                 </button>
 
-                <button
+                {/* <button
                   type="button"
                   id="save-draft-btn"
                   className="bg-transparent text-black px-0 py-2 text-[0.75rem] font-bold uppercase tracking-[0.14em] border-0 border-b-2 border-black hover:border-[#3b3b3b] hover:text-[#3b3b3b] transition-colors duration-300"
                 >
                   Save as Draft
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -276,6 +276,7 @@ function CreateProduct() {
                     multiple
                     className="hidden"
                     onChange={handleFileChange}
+                    required
                   />
                 </div>
               )}

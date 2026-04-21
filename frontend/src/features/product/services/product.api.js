@@ -34,3 +34,8 @@ export const updateProduct = async (productId, product) => {
     const response = await productApiInstance.patch(`/${productId}`, product);
     return response.data;
 };
+
+export const searchProducts = async (query) => {
+    const response = await productApiInstance.get(`/products/search?q=${query}`);
+    return response.data;
+}

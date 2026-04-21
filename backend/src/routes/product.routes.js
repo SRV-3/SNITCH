@@ -8,6 +8,7 @@ import {
   getAllProducts,
   addVariants,
   updateProduct,
+  searchProduct,
 } from '../controllers/product.controller.js';
 import { createProductValidator } from '../validators/product.validator.js';
 
@@ -61,5 +62,12 @@ router.post('/:id/variants', authenticateSeller, upload.array('images', 7), addV
  * @access Private (Seller only)
  */
 router.patch('/:id', authenticateSeller, upload.array('images', 7), updateProduct);
+
+/**
+ * @route GET /api/products/search?query
+ * @description Search Products
+ * @access Public
+ */
+router.get('/products/search', searchProduct);
 
 export default router;

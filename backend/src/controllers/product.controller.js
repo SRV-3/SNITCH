@@ -164,11 +164,7 @@ export async function updateProduct(req, res) {
     update.images = images;
   }
 
-  const product = await productModel.findOneAndUpdate(
-    { _id: productId, seller: req.user.id },
-    { $set: update },
-    { new: true }
-  );
+  const product = await productModel.findOneAndUpdate({ _id: productId, seller: req.user.id }, { $set: update }, { new: true });
 
   if (!product) {
     return res.status(404).json({
@@ -182,4 +178,29 @@ export async function updateProduct(req, res) {
     success: true,
     product,
   });
+}
+
+export async function searchProduct(req, res) {
+  const query = req.query.q;
+  const stopWords = ['the', 'a', 'for', 'in', 'which', 'one'];
+  const tokens = query.toLowerCase().trim().split(/\W+/);
+  const filteredTokens = tokens.filter((word) => !stopWords.includes(word));
+
+  const products = await productModel.find({
+    $and: [
+      {
+        $or: filteredTokens.flatMap((token) => [
+          { title: { $regex: token, $options: 'i' } },
+          { description: { $regex: token, $options: 'i' } },
+          { category: { $regex: token, $options: 'i' } },
+        ]),
+      },
+      {
+        'variants.stock': { $gt: 0 },
+      },
+    ],
+  });
+  console.log(products);
+
+  res.status(200).json({ products });
 }

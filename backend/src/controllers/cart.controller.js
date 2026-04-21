@@ -117,8 +117,6 @@ export async function getCart(req, res) {
 
   const product = await productModel.findOne();
 
-  console.log(items);
-
   res.status(200).json({
     message: `cart fetched`,
     success: success,

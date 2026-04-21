@@ -98,7 +98,7 @@ export async function addVariants(req, res) {
         files.map(async (file) => {
           const image = await uploadFile({
             buffer: file.buffer,
-            filename: originalname,
+            filename: file.originalname,
           });
           return image;
         })

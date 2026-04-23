@@ -16,7 +16,7 @@ router.post('/add/:productId/:variantId', authenticateUser, addToCart);
 /**
  * @route GET /api/cart/
  * @desc Get all cart items
- * @access Private
+ * @access Private to all
  */
 router.get('/', authenticateUser, getCart);
 

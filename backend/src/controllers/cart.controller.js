@@ -1,6 +1,7 @@
 import cartModel from '../models/cart.model.js';
 import productModel from '../models/product.model.js';
 import { getStock } from '../dao/product.dao.js';
+import mongoose from 'mongoose';
 
 export async function addToCart(req, res) {
   const { productId, variantId } = req.params;
@@ -73,7 +74,57 @@ export async function addToCart(req, res) {
   });
 }
 export async function getCart(req, res) {
-  const cart = await cartModel.find({ user: req.user.id });
+  const user = req.user.id;
+  const cart = await cartModel.aggregate(
+    [
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(user),
+        },
+      },
+      { $unwind: { path: '$items' } },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'items.product',
+          foreignField: '_id',
+          as: 'items.product',
+        },
+      },
+      { $unwind: { path: '$items.product' } },
+      {
+        $unwind: { path: '$items.product.variants' },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: ['$items.variant', '$items.product.variants._id'],
+          },
+        },
+      },
+      {
+        $addFields: {
+          itemPrice: {
+            price: {
+              $multiply: ['$items.quantity', '$items.product.variants.price.price.amount'],
+            },
+            currency: '$items.product.variants.price.price.currency',
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$_id',
+          totalPrice: { $sum: '$itemPrice.price' },
+          currency: {
+            $first: '$itemPrice.currency',
+          },
+          items: { $push: '$items' },
+        },
+      },
+    ],
+    { maxTimeMS: 60000, allowDiskUse: true }
+  );
 
   if (!cart) {
     return res.status(400).json({
@@ -82,43 +133,9 @@ export async function getCart(req, res) {
     });
   }
 
-  const productIds = cart[0].items.map((item) => item.product);
-  const variantIds = cart[0].items.map((item) => item.variant);
-
-  const products = await productModel.find({
-    _id: { $in: productIds },
-  });
-
-  if (!products) {
-    return res.status(400).json({
-      message: `Products are not available`,
-      success: false,
-    });
-  }
-
-  const items = [];
-  const cartItems = cart[0].items.map((item) => {
-    const product = products.find((p) => p._id.equals(item.product));
-    const variant = product.variants.find((v) => v._id.equals(item.variant));
-
-    const data = {
-      productId: item.product,
-      variantId: item.variant,
-      title: product.title,
-      attributes: variant.attributes,
-      image: product.images[0].url,
-      quantity: item.quantity,
-      price: variant.price.price.amount,
-      currency: variant.price.price.currency,
-    };
-    return items.push(data);
-  });
-
-  const product = await productModel.findOne();
-
   res.status(200).json({
     message: `cart fetched`,
     success: false,
-    items,
+    cart,
   });
 }
